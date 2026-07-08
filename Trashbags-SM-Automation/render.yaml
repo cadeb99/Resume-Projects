@@ -1,0 +1,25 @@
+# Render.com deployment blueprint (Requirement 7).
+# Render auto-restarts crashed services and runs the health check below.
+# Push this repo to GitHub, then "New > Blueprint" on render.com and point it here.
+
+services:
+  - type: web
+    name: instagram-dm-automation
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health        # Render restarts the service if this stops responding
+    autoDeploy: true
+    # Run 2 instances so one crash doesn't take the bot offline (Requirement 7).
+    # Increase for more load headroom (Requirement 2).
+    numInstances: 2
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false                 # set the value in the Render dashboard, not in git
+      - key: IG_VERIFY_TOKEN
+        sync: false
+      - key: IG_APP_SECRET
+        sync: false
+      - key: IG_ACCESS_TOKEN
+        sync: false
+      - key: NOTIFY_CHANNEL
+        value: console

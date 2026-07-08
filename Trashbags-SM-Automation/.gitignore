@@ -1,0 +1,39 @@
+# Secrets / credentials — never commit these
+.env
+.env.*
+!.env.example
+*.key
+credentials.json
+config.local*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Logs & local data
+*.log
+logs/
+*.session
+*.sqlite
+# Local SQLite database (Req 6) — generated at runtime, not committed
+data/*.db
+data/*.db-wal
+data/*.db-shm
+
+# Claude Code local settings (per-machine, not shared)
+.claude/settings.local.json
+
+# OS / editor cruft
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
