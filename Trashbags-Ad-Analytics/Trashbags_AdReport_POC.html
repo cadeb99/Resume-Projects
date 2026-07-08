@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trashbags Co. — Weekly Ad Report (POC)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #edf2f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    padding: 24px 12px 48px;
+    color: #2d3748;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; }
+
+  .poc-bar {
+    background: #ebf8ff;
+    border: 1px solid #bee3f8;
+    border-radius: 8px 8px 0 0;
+    padding: 10px 20px;
+    font-size: 11.5px;
+    color: #2c5282;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .email {
+    background: #fff;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+  }
+
+  .hdr {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 24px 24px 18px;
+  }
+  .hdr .eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #90cdf4; margin-bottom: 5px; }
+  .hdr h1 { font-size: 17px; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 3px; }
+  .hdr .sub { font-size: 11.5px; color: #a0aec0; }
+
+  .stats {
+    background: #2d3748;
+    padding: 12px 24px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .stat .lbl { font-size: 10px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px; }
+  .stat .val { font-size: 19px; font-weight: 700; color: #fff; }
+
+  /* Game Plan */
+  .gameplan {
+    background: #fffbeb;
+    border-top: 3px solid #f6ad55;
+    padding: 20px 24px 22px;
+  }
+  .gameplan h2 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #744210;
+    margin-bottom: 14px;
+  }
+  .gp-action {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 11px;
+    align-items: flex-start;
+  }
+  .gp-num {
+    background: #dd6b20;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .gp-text strong { display: block; font-size: 13px; color: #2d3748; margin-bottom: 1px; }
+  .gp-text span { font-size: 12px; color: #4a5568; }
+  .gp-divider { border: none; border-top: 1px solid #fbd38d; margin: 14px 0; }
+  .gp-dive {
+    font-size: 12px;
+    color: #4a5568;
+    background: #fff;
+    border-left: 3px solid #f6ad55;
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+  }
+  .gp-dive strong { color: #744210; display: block; margin-bottom: 5px; font-size: 12px; }
+  .gp-dive ul { margin: 0; padding-left: 16px; }
+  .gp-dive li { margin-bottom: 3px; }
+
+  .body { padding: 0 18px 28px; }
+
+  .sh {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 14px;
+    margin-top: 20px;
+    border-radius: 5px 5px 0 0;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .s1 { background: #1a365d; }
+  .s2 { background: #1c4532; }
+  .s3 { background: #1a202c; }
+  .s4a { background: #2a4365; }
+  .s4b { background: #22543d; }
+  .s5 { background: #322659; }
+
+  .card {
+    padding: 10px 14px;
+    border-left: 4px solid #e2e8f0;
+    font-size: 12.5px;
+    color: #2d3748;
+    line-height: 1.6;
+    margin-bottom: 2px;
+    background: #f8f9fc;
+  }
+  .card.red    { background: #fff5f5; border-left-color: #fc8181; }
+  .card.green  { background: #f0fff4; border-left-color: #68d391; }
+  .card.yellow { background: #fffbeb; border-left-color: #f6e05e; }
+  .card.plain  { background: #fff;    border-left-color: #cbd5e0; }
+  .card .note  { font-size: 11.5px; color: #718096; display: block; margin-top: 2px; }
+  .card strong { font-weight: 600; }
+
+  .glabel {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #718096;
+    padding: 10px 14px 4px;
+    background: #f8f9fc;
+    border-left: 4px solid #e2e8f0;
+    margin-bottom: 2px;
+  }
+
+  .b {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-right: 6px;
+    color: #fff;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .b-stop   { background: #c53030; }
+  .b-go     { background: #276749; }
+  .b-scale  { background: #2b6cb0; }
+  .b-warn   { background: #c05621; }
+  .b-new    { background: #553c9a; }
+  .b-urgent { background: #9b2c2c; }
+  .b-gap    { background: #2c7a7b; }
+  .b-event  { background: #6b46c1; }
+  .b-gray   { background: #718096; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .chip { background: #edf2f7; border-radius: 4px; padding: 2px 8px; font-size: 11px; color: #4a5568; }
+  .chip.hi { background: #c6f6d5; color: #22543d; font-weight: 600; }
+  .chip.lo { background: #fed7d7; color: #742a2a; font-weight: 600; }
+  .chip.ok { background: #bee3f8; color: #1a365d; font-weight: 600; }
+
+  .snapshot { background: #f8f9fc; padding: 12px 14px; border-left: 4px solid #e2e8f0; font-size: 12.5px; color: #2d3748; margin-bottom: 2px; }
+  .snapshot .row { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; line-height: 1.65; }
+  .snapshot .row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .snapshot .lbl2 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #a0aec0; margin-bottom: 3px; display: block; }
+
+  .footer {
+    background: #f7fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 12px 24px;
+    font-size: 11px;
+    color: #a0aec0;
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 540px) {
+    .stats { gap: 14px; }
+    .stat .val { font-size: 16px; }
+    .hdr { padding: 18px 14px 14px; }
+    .gameplan { padding: 16px 14px 18px; }
+    .body { padding: 0 10px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="poc-bar">
+    <strong>PROOF OF CONCEPT DEMO</strong> — Simulated data showing what this automated weekly report looks like when fully live.<br>
+    In production it connects to your Meta Ads account, Google search trends, live snow reports, and park event calendars.
+  </div>
+
+  <div class="email">
+
+    <div class="hdr">
+      <div class="eyebrow">Trashbags Co. — Weekly Ad Report</div>
+      <h1>Ad Performance Summary — June 20, 2026</h1>
+      <div class="sub">Week of June 13–20 &nbsp;·&nbsp; Report generated automatically every Sunday</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="lbl">Money Spent on Ads</div><div class="val">$4,362</div></div>
+      <div class="stat"><div class="lbl">Revenue Generated</div><div class="val">$186,034</div></div>
+      <div class="stat"><div class="lbl">Ads Running</div><div class="val">12</div></div>
+      <div class="stat"><div class="lbl">Competitors Tracked</div><div class="val">5</div></div>
+    </div>
+
+    <!-- GAME PLAN -->
+    <div class="gameplan">
+      <h2>🎯 This Week's Game Plan — Read This First</h2>
+
+      <div class="gp-action">
+        <div class="gp-num">1</div>
+        <div class="gp-text">
+          <strong>Stop wasting money on 2 ads — do this today</strong>
+          <span>Two of your ads have shown to the same people so many times they're being completely ignored. You're spending money with almost nothing coming back. Pause <em>Event Hype — Mammoth CA</em> and <em>Influencer Collab — Laax Switzerland</em> right now. That frees up roughly <strong>$530/week</strong> to move somewhere better.</span>
+        </div>
+      </div>
+
+      <div class="gp-action">
+        <div class="gp-num">2</div>
+        <div class="gp-text">
+          <strong>Move that freed money to South America — it's peak ski season there and nobody else is advertising</strong>
+          <span>It's winter in Chile and Argentina right now. Valle Nevado Chile has amazing snow and <strong>zero competitors</strong>. Santiago Chile is the fastest-growing search market this week (+57% vs last week). Your best ad is making $5 back for every $1 spent — clone it for these markets.</span>
+        </div>
+      </div>
+
+      <div class="gp-action">
+        <div class="gp-num">3</div>
+        <div class="gp-text">
+          <strong>Turn up the volume on your 2 best ads</strong>
+          <span>You have one ad making <strong>$5.07 back per $1 spent</strong> (retargeting past website visitors — Park City UT) and another making <strong>$4.44 back per $1</strong> (southern hemisphere spring colorway). Both are healthy. Increase their budgets by 25–30% this week.</span>
+        </div>
+      </div>
+
+      <div class="gp-action">
+        <div class="gp-num">4</div>
+        <div class="gp-text">
+          <strong>Whistler park event is in 17 days — you're already 2 days behind on ads</strong>
+          <span>Whistler Park Opener Festival (July 6, ~2,800 attendees) is approaching and the ideal start date was 2 days ago. Launch a short video ad targeting park riders in Whistler/Vancouver today. Every day you wait costs reach.</span>
+        </div>
+      </div>
+
+      <div class="gp-action">
+        <div class="gp-num">5</div>
+        <div class="gp-text">
+          <strong>All 5 of your competitors use short video ads (Reels) — you only have 1</strong>
+          <span>Reels consistently gets the best results in your category and every competitor is running them. You have 12 ads but only 1 is a Reel. Build 2–3 short video ads for Chile, New Zealand, and the Whistler event. This is your biggest gap right now.</span>
+        </div>
+      </div>
+
+      <hr class="gp-divider">
+
+      <div class="gp-dive">
+        <strong>📋 Worth digging into in the sections below:</strong>
+        <ul>
+          <li><strong>Section 1</strong> — Which specific ads and locations are making money vs losing it</li>
+          <li><strong>Section 2</strong> — Snow conditions by resort and 4 upcoming events with exact ad windows</li>
+          <li><strong>Section 3</strong> — Where competitors are (and aren't) advertising — your gap opportunities</li>
+          <li><strong>Section 4A</strong> — Specific actions for each of your 12 running ads</li>
+          <li><strong>Section 4B</strong> — New ad ideas ranked by profit potential</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="body">
+
+      <!-- SECTION 1 -->
+      <div class="sh s1">📊 Section 1 — Your Ads This Week</div>
+
+      <div class="glabel">What's working best</div>
+
+      <div class="card green">
+        <span class="b b-go">BEST AD</span> <strong>Retargeting past website visitors — Park City UT (Feed)</strong>
+        <div class="chips">
+          <span class="chip hi">$5.07 back per $1 spent</span>
+          <span class="chip hi">4.47% click rate</span>
+          <span class="chip ok">Not overexposed — healthy</span>
+        </div>
+        <span class="note">People who visited your site before are buying. Increase budget 25–30% this week.</span>
+      </div>
+
+      <div class="card green">
+        <span class="b b-go">2ND BEST</span> <strong>Spring Colorway — Perisher NSW Australia (Explore)</strong>
+        <div class="chips">
+          <span class="chip hi">$4.44 back per $1 spent</span>
+          <span class="chip hi">3.65% click rate</span>
+          <span class="chip ok">Peak winter in Australia right now</span>
+        </div>
+        <span class="note">Clone this exact ad and launch it in Valle Nevado Chile and Wanaka NZ this week.</span>
+      </div>
+
+      <div class="card green">
+        <span class="b b-go">SOLID</span> <strong>Behind the Seams brand story — Stories</strong>
+        <div class="chips">
+          <span class="chip ok">$2.85 back per $1</span>
+          <span class="chip ok">33 days running, still healthy</span>
+        </div>
+        <span class="note">Keep running. Brand storytelling is doing its job — don't touch it.</span>
+      </div>
+
+      <div class="glabel" style="margin-top:6px;">Losing money — pause these now</div>
+
+      <div class="card red">
+        <span class="b b-stop">PAUSE NOW</span> <strong>Event Hype / Competition Countdown — Mammoth CA</strong>
+        <div class="chips">
+          <span class="chip lo">$0.81 back per $1 — losing money</span>
+          <span class="chip lo">Shown to same people 7.3 times</span>
+          <span class="chip lo">0.68% click rate</span>
+        </div>
+        <span class="note">People are tuning this ad out completely. Pause today. Wait 14 days before showing anything new to this same group.</span>
+      </div>
+
+      <div class="card red">
+        <span class="b b-stop">PAUSE NOW</span> <strong>Influencer Collab @riderjake — Laax Switzerland (Explore)</strong>
+        <div class="chips">
+          <span class="chip lo">$0.98 back per $1 — below breakeven</span>
+          <span class="chip lo">Shown to same people 6.8 times</span>
+          <span class="chip lo">Running 27 days to same audience</span>
+        </div>
+        <span class="note">Switzerland ski season is over AND the audience is burned out. Pause today. Bring a fresh version back for the Laax Halfpipe event (Aug 2).</span>
+      </div>
+
+      <div class="glabel" style="margin-top:6px;">Top locations making you money</div>
+      <div class="card"><strong>Park City, UT</strong> — <span style="color:#276749;font-weight:600;">$5.07 per $1</span> &nbsp;·&nbsp; <span class="note" style="display:inline;">Retargeting past buyers works even in off-season. Scale up.</span></div>
+      <div class="card"><strong>Perisher, NSW (Australia)</strong> — <span style="color:#276749;font-weight:600;">$4.44 per $1</span> &nbsp;·&nbsp; <span class="note" style="display:inline;">In-season, great snow, searches up +39% this week.</span></div>
+      <div class="card"><strong>Jackson Hole, WY</strong> — <span style="color:#276749;font-weight:600;">$2.53 per $1</span> &nbsp;·&nbsp; <span class="note" style="display:inline;">Rare late-season snow (29 inches last 7 days). Keep ads running here through late July.</span></div>
+
+      <div class="glabel" style="margin-top:6px;">Who's buying and when</div>
+      <div class="card"><strong>Past website visitors</strong> — $5.07 per $1 &nbsp;·&nbsp; Best time to reach them: <strong>Sunday evenings</strong></div>
+      <div class="card"><strong>Outdoor lifestyle crowd 18–35 (southern hemisphere)</strong> — $4.44 per $1 &nbsp;·&nbsp; Best time: <strong>Sunday evenings</strong></div>
+      <div class="card"><strong>Ski enthusiasts 25–44 in Jackson Hole</strong> — $2.53 per $1 &nbsp;·&nbsp; Best time: <strong>Thu–Sun evenings</strong></div>
+
+
+      <!-- SECTION 2 -->
+      <div class="sh s2">🌨️ Section 2 — Market Conditions</div>
+
+      <div class="card plain">
+        <strong>Where it's currently winter (ski season):</strong> Chile, Argentina, Australia, New Zealand — these markets are at peak buying right now.<br>
+        <strong>Where ski season is over:</strong> USA, Canada, Europe, Japan — stick to retargeting past buyers only, or lifestyle/streetwear angles. Exceptions: Whistler (late-season snow + park event) and Jackson Hole.
+      </div>
+
+      <div class="glabel" style="margin-top:6px;">Where people are searching most this week</div>
+      <div class="card green"><strong>Santiago, Chile</strong> — searches up <span style="color:#276749;font-weight:600;">+57.6%</span> vs last week &nbsp;·&nbsp; <span class="note" style="display:inline;">Biggest spike in the entire dataset. Zero competitors here.</span></div>
+      <div class="card green"><strong>Las Leñas, Argentina</strong> — up <span style="color:#276749;font-weight:600;">+53.5%</span> &nbsp;·&nbsp; <span class="note" style="display:inline;">In-season, elite ski resort, zero competitors. High-spending buyers.</span></div>
+      <div class="card green"><strong>Wanaka, New Zealand</strong> — up <span style="color:#276749;font-weight:600;">+44%</span>, maximum interest score &nbsp;·&nbsp; <span class="note" style="display:inline;">Maxed-out demand, in-season, zero competitors.</span></div>
+      <div class="card"><strong>"ski pants baggy"</strong> — global searches up <span style="color:#276749;font-weight:600;">+29.9%</span> &nbsp;·&nbsp; <span class="note" style="display:inline;">Use this exact phrase in your ad copy and headlines right now.</span></div>
+      <div class="card"><strong>"rail jam"</strong> — up <span style="color:#276749;font-weight:600;">+30.4%</span> &nbsp;·&nbsp; <span class="note" style="display:inline;">Cardrona Rail Jam (NZ, July 24) and Laax Halfpipe (Aug 2) are building buzz.</span></div>
+
+      <div class="glabel" style="margin-top:6px;">Snow conditions — where to focus and where to avoid</div>
+      <div class="card green"><strong>Valle Nevado, Chile</strong> — 23.7 inches last 7 days · 82 inches base · Excellent &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600;">Zero ads running here</span></div>
+      <div class="card green"><strong>Whistler, BC</strong> — 34 inches last 7 days · 79 inches base · Park event in 17 days</div>
+      <div class="card green"><strong>Jackson Hole, WY</strong> — 29 inches last 7 days · 115 inches base · Your ads running and making money</div>
+      <div class="card red"><strong>Mammoth, CA</strong> — 5.7 inches, 7 inches base · Season over · 2 competitors active · Your ad losing money → Pause</div>
+      <div class="card red"><strong>Bariloche, Argentina</strong> — Poor snow · You're spending here but Chile has better conditions and zero competition → Move budget to Chile</div>
+
+      <div class="glabel" style="margin-top:6px;">Upcoming park events — these drive sales spikes</div>
+      <div class="card red">
+        <span class="b b-urgent">URGENT — 17 DAYS</span> <strong>Whistler Park Opener Festival</strong> · Whistler, BC · July 6
+        <div class="chips"><span class="chip">~2,800 attendees</span><span class="chip lo">Ad window opened 2 days ago — start today</span></div>
+        <span class="note">Short video Reel targeting park riders 18–28 in Whistler and Vancouver area.</span>
+      </div>
+      <div class="card yellow">
+        <span class="b b-warn">26 DAYS</span> <strong>Calgary Stampede Big Air</strong> · Calgary, AB · July 15
+        <div class="chips"><span class="chip">9,304 expected — biggest event this week</span></div>
+        <span class="note">Start advertising June 27. Park riders + lifestyle crossover. Large Canadian audience.</span>
+      </div>
+      <div class="card">
+        <span class="b b-gray">35 DAYS</span> <strong>Cardrona Spring Rail Jam</strong> · Cardrona, NZ · July 24
+        <span class="note">Start July 6. "Rail jam" searches up 30%. NZ/AU grassroots park riders 18–24.</span>
+      </div>
+      <div class="card">
+        <span class="b b-gray">44 DAYS</span> <strong>Laax Open Halfpipe Finals</strong> · Laax, Switzerland · August 2
+        <span class="note">Plan creative now. Relaunch your paused Laax ad with an event angle when the window opens July 15.</span>
+      </div>
+
+
+      <!-- SECTION 3 -->
+      <div class="sh s3">🔍 Section 3 — What Your Competitors Are Doing</div>
+
+      <div class="glabel">Places you could advertise with zero competition</div>
+      <div class="card green"><span class="b b-gap">GAP</span> <strong>Wanaka, NZ</strong> — None of your 5 competitors are here. Maxed-out demand. In-season peak. Best gap in the market right now.</div>
+      <div class="card green"><span class="b b-gap">GAP</span> <strong>Santiago, Chile</strong> — Zero competitors. Fastest-growing search this week. Big city lifestyle/streetwear audience.</div>
+      <div class="card green"><span class="b b-gap">GAP</span> <strong>Las Leñas, Argentina</strong> — Zero competitors. In-season. Elite resort buyers who spend on quality gear.</div>
+      <div class="card green"><span class="b b-gap">GAP</span> <strong>Chapelco, Argentina</strong> — Zero competitors. Maxed-out interest. In-season peak conditions this week.</div>
+
+      <div class="glabel" style="margin-top:6px;">What your competitors have figured out — worth noting</div>
+      <div class="card yellow"><strong>FreerideGear</strong> — Their Reel ad has been running profitably for 41 days. When a competitor keeps an ad running that long, it's making money. Study the style and hook of what they're doing.</div>
+      <div class="card yellow"><strong>NorthFace Knock-off Brand</strong> — Spending heavily across 4 markets, running both Reels and Carousel ads. If they're investing that much, it's working. The Reels + Carousel combo is worth testing on your best markets.</div>
+
+      <div class="glabel" style="margin-top:6px;">Crowded markets — harder to win right now</div>
+      <div class="card yellow"><strong>Mammoth CA</strong> — 2 competitors active, bad snow, your ad losing money → Pause (covered in Section 1)</div>
+      <div class="card yellow"><strong>Laax, Switzerland</strong> — 2 competitors at high spend, off-season, your ad burned out → Pause (covered in Section 1)</div>
+      <div class="card yellow"><strong>Jackson Hole, WY</strong> — 2 competitors active, but your late-season snow advantage is keeping you profitable → Stay, but try to make your creative stand out from theirs</div>
+
+
+      <!-- SECTION 4A -->
+      <div class="sh s4a">✏️ Section 4A — What to Do With Your 12 Running Ads</div>
+
+      <div class="glabel">Stop spending on these</div>
+      <div class="card red">
+        <span class="b b-stop">PAUSE</span> <strong>AD_1000 — Event Hype / Mammoth CA</strong>
+        <span class="note">Losing $0.19 per $1. Same people have seen it 7+ times. Bad snow. 2 competitors fighting for the same audience.</span>
+      </div>
+      <div class="card red">
+        <span class="b b-stop">PAUSE</span> <strong>AD_1001 — Influencer Collab @riderjake / Laax Switzerland</strong>
+        <span class="note">Breaking even at best. 27 days to the same audience. Ski season is over in Switzerland. Relaunch with a Halfpipe Finals angle in mid-July.</span>
+      </div>
+
+      <div class="glabel" style="margin-top:6px;">Increase budgets on these</div>
+      <div class="card green">
+        <span class="b b-scale">SCALE UP 25–30%</span> <strong>AD_1002 — Retargeting past website visitors / Park City UT</strong>
+        <span class="note">Your best performer at $5.07 per $1. People who already looked at your site are buying. Give it more budget.</span>
+      </div>
+      <div class="card green">
+        <span class="b b-scale">SCALE + CLONE</span> <strong>AD_1003 — Spring Colorway / Perisher NSW Australia</strong>
+        <span class="note">$4.44 per $1, healthy, in-season. Increase budget AND copy this ad to run in Valle Nevado Chile and Wanaka NZ.</span>
+      </div>
+      <div class="card green">
+        <span class="b b-go">KEEP RUNNING</span> <strong>AD_1007 — Last Season Bestseller / Jackson Hole WY</strong>
+        <span class="note">$2.53 per $1 at very low ad cost. Late-season snow is keeping buyers active. Keep going through late July.</span>
+      </div>
+
+      <div class="glabel" style="margin-top:6px;">Move money around</div>
+      <div class="card">
+        <span class="b b-warn">SHIFT</span> <strong>Move Bariloche Argentina budget → Valle Nevado Chile + Santiago Chile</strong>
+        <span class="note">Bariloche has poor snow right now. Chile has excellent conditions and zero competitors. Move 50–60% of your Argentina spend to Chile.</span>
+      </div>
+      <div class="card">
+        <span class="b b-warn">SHIFT</span> <strong>Take the ~$530/week freed from paused ads → new southern hemisphere Reels</strong>
+        <span class="note">Don't let that budget default back to bad placements. Redirect it specifically to Chile, New Zealand, and the Whistler event.</span>
+      </div>
+
+      <div class="glabel" style="margin-top:6px;">Small changes worth making</div>
+      <div class="card plain">
+        <strong>Run your highest-spend ads Friday–Sunday evenings instead of all day every day</strong>
+        <span class="note">Your best-performing ads all convert on weekend evenings. Concentrating budget then will stretch your dollar further. Most ad platforms let you set a "schedule" — use it.</span>
+      </div>
+      <div class="card plain">
+        <strong>Split your website retargeting audience into 3 groups</strong>
+        <span class="note">Right now you're targeting all past visitors the same way. Split into: (1) people who added to cart but didn't buy, (2) people who viewed a product page, (3) people who read your blog. Each group needs a different message and budget.</span>
+      </div>
+
+
+      <!-- SECTION 4B -->
+      <div class="sh s4b">💡 Section 4B — New Ads Worth Launching</div>
+
+      <div class="glabel">Highest-priority — launch this week</div>
+      <div class="card green">
+        <span class="b b-gap">ZERO COMPETITORS</span> <strong>Launch in Wanaka, New Zealand</strong>
+        <span class="note">None of your competitors are there. Search interest is maxed out. Peak winter. Use natural/grassroots riding footage for a Reel — not polished product shots. Clone the format of AD_1003.</span>
+      </div>
+      <div class="card green">
+        <span class="b b-gap">ZERO COMPETITORS</span> <strong>Launch in Valle Nevado, Chile</strong>
+        <span class="note">Excellent snow, in-season, zero competitors. Clone AD_1003 here too. Best untapped opportunity in the entire dataset.</span>
+      </div>
+      <div class="card green">
+        <span class="b b-gap">ZERO COMPETITORS</span> <strong>Launch in Santiago, Chile — city lifestyle angle</strong>
+        <span class="note">Santiago is a large city. These are people who wear ski fashion as streetwear, not resort skiers. Run a lifestyle-focused ad — think street/skate park energy with your pants, not lift lines or powder shots.</span>
+      </div>
+
+      <div class="glabel" style="margin-top:6px;">Event-specific ads to build now</div>
+      <div class="card">
+        <span class="b b-event">EVENT</span> <strong>Whistler Park Opener Festival — July 6 · Start today</strong>
+        <span class="note">Target park riders 18–28 in Whistler and Vancouver. Short Reel with park/tricks energy. Already 2 days behind the ideal start.</span>
+      </div>
+      <div class="card">
+        <span class="b b-event">EVENT</span> <strong>Calgary Stampede Big Air — July 15 · Start June 27</strong>
+        <span class="note">Biggest event attendance in the dataset (9,300+). Canadian market, park riders and lifestyle crowd. Start in one week.</span>
+      </div>
+
+      <div class="glabel" style="margin-top:6px;">New audience to test</div>
+      <div class="card">
+        <span class="b b-new">NEW AUDIENCE</span> <strong>City lifestyle crowd in Santiago + Buenos Aires</strong>
+        <span class="note">Both cities are spiking in search this week (+57% and +42%). Large populations who wear ski fashion as everyday clothes. Pitch it as a fashion drop — not a ski product.</span>
+      </div>
+
+      <div class="card red" style="margin-top:6px;">
+        <strong>⚠️ Your biggest structural gap right now: You need more short video (Reels) ads</strong>
+        <span class="note">12 ads running, only 1 is a Reel. All 5 competitors run Reels. One competitor's Reel has been running profitably for 41 days. This format works in your category and you're barely using it. Highest-priority creative task: build 2–3 Reels for Chile, New Zealand, and the Whistler event.</span>
+      </div>
+
+
+      <!-- SECTION 5 -->
+      <div class="sh s5">🌍 Section 5 — Big Picture</div>
+
+      <div class="snapshot">
+        <div class="row">
+          <span class="lbl2">Searches growing fastest this week</span>
+          Santiago Chile +57.6% &nbsp;·&nbsp; Las Leñas Argentina +53.5% &nbsp;·&nbsp; Telluride CO +51.3% &nbsp;·&nbsp; Park City UT +51.1% &nbsp;·&nbsp; Wanaka NZ +44% &nbsp;·&nbsp; Chapelco Argentina +39.8% &nbsp;·&nbsp; Perisher NSW +39.3% &nbsp;·&nbsp; Buenos Aires +42.8%
+        </div>
+        <div class="row">
+          <span class="lbl2">Events coming up</span>
+          Whistler Park Opener (BC, 17 days — <strong>launch ads today</strong>) &nbsp;·&nbsp; Calgary Big Air (AB, 26 days, 9,300 people) &nbsp;·&nbsp; Cardrona Rail Jam (NZ, 35 days) &nbsp;·&nbsp; Laax Halfpipe Finals (Switzerland, 44 days)
+        </div>
+        <div class="row">
+          <span class="lbl2">Northern hemisphere (USA, Canada, Europe, Japan)</span>
+          Ski season is over for most areas. Stick to retargeting past buyers. If running awareness ads, shift messaging to lifestyle/streetwear. Exceptions: Whistler (late snow + park event) and Jackson Hole (still profitable due to unusual late snowfall).
+        </div>
+        <div class="row">
+          <span class="lbl2">Southern hemisphere (Chile, Argentina, NZ, Australia)</span>
+          PEAK SEASON. This is where your money should go right now. Chile leads — Valle Nevado has excellent conditions and zero competition. Santiago and Buenos Aires are your urban growth markets. New Zealand: Wanaka demand is maxed out. Australia: Perisher is converting well.
+        </div>
+        <div class="row">
+          <span class="lbl2">Your focus for the next 2–4 weeks</span>
+          1. Pause 2 burned ads, free up $530/week &nbsp;·&nbsp; 2. Launch in Valle Nevado + Wanaka + Santiago immediately &nbsp;·&nbsp; 3. Start Whistler event ads today &nbsp;·&nbsp; 4. Build 2–3 Reels — your biggest gap &nbsp;·&nbsp; 5. Scale AD_1002 and AD_1003 by 25–30%
+        </div>
+        <div class="row">
+          <span class="lbl2">Searches declining — avoid spending here this week</span>
+          Mammoth CA (off-season, bad snow, losing money) &nbsp;·&nbsp; Bariloche Argentina (poor snow vs Chile opportunity) &nbsp;·&nbsp; Laax Switzerland (off-season, burned creative) &nbsp;·&nbsp; Vancouver BC −19.9% &nbsp;·&nbsp; Flagstaff AZ −19.6%
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      Trashbags Co. Automated Ad Intelligence &nbsp;·&nbsp; Analyzed by Claude AI &nbsp;·&nbsp; Report covers June 13–20, 2026<br>
+      Data sources: Meta Ads · Google Trends · Open-Meteo snow reports · Park event calendar<br>
+      This system is read-only — it never changes or spends your ad budget automatically
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

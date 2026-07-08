@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trashbags Co. — Ad Intelligence System Explainer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #edf2f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    padding: 28px 12px 56px;
+    color: #2d3748;
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 700px; margin: 0 auto; }
+
+  /* POC bar */
+  .poc-bar {
+    background: #ebf8ff;
+    border: 1px solid #bee3f8;
+    border-radius: 8px 8px 0 0;
+    padding: 10px 20px;
+    font-size: 11.5px;
+    color: #2c5282;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* Main card */
+  .card-wrap {
+    background: #fff;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 32px 28px 28px;
+  }
+  .hero .eyebrow {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #90cdf4;
+    margin-bottom: 8px;
+  }
+  .hero h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 13px;
+    color: #a0aec0;
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  /* Tagline strip */
+  .tagline {
+    background: #2d3748;
+    padding: 14px 28px;
+    font-size: 13px;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .tagline .sep { color: #4a5568; }
+
+  /* Body */
+  .body { padding: 28px; }
+
+  /* Section headers */
+  .sh {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #718096;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .sh:first-of-type { margin-top: 0; }
+
+  /* "What it does in plain English" */
+  .plain-block {
+    background: #f8f9fc;
+    border-left: 4px solid #4299e1;
+    border-radius: 0 6px 6px 0;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #2d3748;
+    line-height: 1.7;
+  }
+  .plain-block strong { font-weight: 600; color: #1a365d; }
+
+  /* Data source grid */
+  .source-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .source-card {
+    background: #f8f9fc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .source-card .icon { font-size: 20px; margin-bottom: 6px; }
+  .source-card .name { font-size: 12.5px; font-weight: 600; color: #2d3748; margin-bottom: 3px; }
+  .source-card .detail { font-size: 11.5px; color: #718096; line-height: 1.55; }
+  .source-card .cost { display: inline-block; font-size: 10.5px; font-weight: 700; margin-top: 6px; padding: 2px 8px; border-radius: 10px; }
+  .cost-free { background: #c6f6d5; color: #276749; }
+  .cost-yours { background: #bee3f8; color: #1a365d; }
+  .cost-paid { background: #fed7d7; color: #742a2a; }
+
+  /* Flow steps */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .flow-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .flow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 32px;
+  }
+  .flow-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .flow-line {
+    width: 2px;
+    flex: 1;
+    min-height: 20px;
+    background: #e2e8f0;
+    margin: 4px 0;
+  }
+  .flow-content {
+    padding-bottom: 18px;
+    flex: 1;
+  }
+  .flow-content .ftitle { font-size: 13.5px; font-weight: 600; color: #2d3748; margin-bottom: 3px; }
+  .flow-content .fdesc { font-size: 12.5px; color: #4a5568; line-height: 1.6; }
+
+  /* Report section breakdown */
+  .report-section {
+    background: #f8f9fc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 13px 16px;
+    margin-bottom: 8px;
+  }
+  .report-section .rnum {
+    display: inline-block;
+    background: #2b6cb0;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .report-section .rtitle { font-size: 13px; font-weight: 600; color: #1a365d; vertical-align: middle; }
+  .report-section .rdesc { font-size: 12px; color: #718096; margin-top: 5px; line-height: 1.55; }
+
+  /* What you need table */
+  .need-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .need-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #a0aec0;
+    padding: 6px 10px;
+    background: #f8f9fc;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .need-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #f0f4f8;
+    color: #2d3748;
+    vertical-align: top;
+  }
+  .need-table tr:last-child td { border-bottom: none; }
+  .need-table .tag {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 8px;
+  }
+  .tag-easy { background: #c6f6d5; color: #276749; }
+  .tag-med  { background: #fefcbf; color: #744210; }
+  .tag-hard { background: #fed7d7; color: #742a2a; }
+  .tag-free { background: #e9d8fd; color: #553c9a; }
+
+  /* Cost block */
+  .cost-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .cost-item {
+    background: #f8f9fc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .cost-item .clabel { font-size: 11px; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+  .cost-item .cval { font-size: 20px; font-weight: 700; color: #2d3748; }
+  .cost-item .cnote { font-size: 11.5px; color: #718096; margin-top: 3px; line-height: 1.5; }
+
+  /* FAQ */
+  .faq-item {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 13px 0;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-item .q { font-size: 13px; font-weight: 600; color: #2d3748; margin-bottom: 5px; }
+  .faq-item .a { font-size: 12.5px; color: #4a5568; line-height: 1.65; }
+
+  /* Status badge */
+  .status-bar {
+    background: #f0fff4;
+    border: 1px solid #9ae6b4;
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .status-bar .sicon { font-size: 20px; flex-shrink: 0; }
+  .status-bar .stxt { font-size: 12.5px; color: #22543d; line-height: 1.6; }
+  .status-bar .stxt strong { display: block; font-size: 13px; margin-bottom: 2px; }
+
+  .demo-bar {
+    background: #fffbeb;
+    border: 1px solid #f6e05e;
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .demo-bar .stxt { color: #744210; }
+  .demo-bar .stxt strong { color: #744210; }
+
+  /* Footer */
+  .footer {
+    background: #f7fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 14px 28px;
+    font-size: 11px;
+    color: #a0aec0;
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 540px) {
+    .source-grid { grid-template-columns: 1fr; }
+    .cost-grid { grid-template-columns: 1fr; }
+    .hero { padding: 22px 16px 18px; }
+    .body { padding: 20px 14px; }
+    .tagline { font-size: 12px; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="poc-bar">
+    <strong>PROOF OF CONCEPT</strong> — This document explains the automated ad intelligence system built for Trashbags Co.<br>
+    The report output (the weekly email) is in the companion file: <em>Trashbags_AdReport_POC.html</em>
+  </div>
+
+  <div class="card-wrap">
+
+    <div class="hero">
+      <div class="eyebrow">Trashbags Co. — System Overview</div>
+      <h1>Automated Weekly Ad Intelligence</h1>
+      <p>Every Sunday morning, this system wakes up, pulls data from 5 sources, runs it through an AI, and emails you a plain-English report telling you exactly what to do with your ads that week. No dashboards to check, no spreadsheets, no agency.</p>
+    </div>
+
+    <div class="tagline">
+      <span>✅ Fully automated</span>
+      <span class="sep">·</span>
+      <span>📧 Delivered to your inbox every Sunday</span>
+      <span class="sep">·</span>
+      <span>🔒 Read-only — never touches your ad spend</span>
+      <span class="sep">·</span>
+      <span>🧠 Powered by Claude AI</span>
+    </div>
+
+    <div class="body">
+
+      <!-- WHAT IT DOES -->
+      <div class="sh">What It Does — In Plain English</div>
+
+      <div class="plain-block">
+        <strong>The problem it solves:</strong> Managing Meta ads for a seasonal brand means tracking snow conditions, competitor moves, event calendars, and search trends — all at once, across dozens of markets. Doing that manually every week takes hours and most of it gets missed.
+      </div>
+      <div class="plain-block">
+        <strong>What this system does instead:</strong> Every Sunday it automatically checks your ad account, looks at what your competitors are running, checks snow conditions at 12 resorts, scans Google search trends across 36 target cities, and looks up upcoming park events. It feeds all of that into an AI (Claude) which analyzes it and writes you a short report telling you which ads to pause, which to turn up, where to launch new ones, and what's happening in the market this week.
+      </div>
+      <div class="plain-block">
+        <strong>What you do with it:</strong> Read the Game Plan section (takes about 3 minutes), make the moves in your Meta Ads account, done. The system never touches your budget or makes any changes itself — it only reads and reports.
+      </div>
+
+      <!-- HOW IT WORKS -->
+      <div class="sh">How It Works — Step by Step</div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-connector">
+            <div class="flow-dot" style="background:#2b6cb0;">1</div>
+            <div class="flow-line"></div>
+          </div>
+          <div class="flow-content">
+            <div class="ftitle">Every Sunday at 8am — data collection starts</div>
+            <div class="fdesc">The system automatically pulls from all 5 data sources at the same time: your Meta ad performance, competitor ads, Google search trends, live snow reports, and park event listings. Takes about 30–60 seconds.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-connector">
+            <div class="flow-dot" style="background:#276749;">2</div>
+            <div class="flow-line"></div>
+          </div>
+          <div class="flow-content">
+            <div class="ftitle">All data is combined and sent to Claude AI</div>
+            <div class="fdesc">The collected data — your ad numbers, competitor activity, search spikes, snow conditions, and upcoming events — is packaged up and sent to Claude (an AI made by Anthropic). Claude reads all of it and writes a structured analysis: what's working, what's not, where the opportunities are, what to do.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-connector">
+            <div class="flow-dot" style="background:#553c9a;">3</div>
+            <div class="flow-line"></div>
+          </div>
+          <div class="flow-content">
+            <div class="ftitle">The report is formatted and emailed to you</div>
+            <div class="fdesc">The AI's analysis is turned into the weekly HTML email report — the one in the companion file. It lands in your Gmail inbox by Sunday morning. No login required, no app to open.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-connector">
+            <div class="flow-dot" style="background:#c05621;">4</div>
+          </div>
+          <div class="flow-content">
+            <div class="ftitle">You make the calls — system resets and waits for next Sunday</div>
+            <div class="fdesc">You read the report, decide which recommendations to act on, make the changes yourself in Meta Ads Manager. The system sits idle until next Sunday and repeats automatically.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATA SOURCES -->
+      <div class="sh">Where the Data Comes From — 5 Sources</div>
+
+      <div class="source-grid">
+        <div class="source-card">
+          <div class="icon">📊</div>
+          <div class="name">Meta Ads (Your Account)</div>
+          <div class="detail">Pulls your live ad performance: spend, revenue, click rates, how often the same people see each ad, which placements and locations are working.</div>
+          <span class="cost cost-yours">Uses your existing Meta account</span>
+        </div>
+        <div class="source-card">
+          <div class="icon">🔎</div>
+          <div class="name">Meta Ad Library (Competitors)</div>
+          <div class="detail">Meta's public database of all running ads. The system scans it for competitors in your category — finds what they're running, where, and how long their creatives have been live.</div>
+          <span class="cost cost-free">Free public API</span>
+        </div>
+        <div class="source-card">
+          <div class="icon">📈</div>
+          <div class="name">Google Trends</div>
+          <div class="detail">Checks search volume week-over-week for your key terms ("baggy ski pants", "snowpants", etc.) and for 36 target cities across both hemispheres. Flags anything spiking +25% or more.</div>
+          <span class="cost cost-free">Free — no API key needed</span>
+        </div>
+        <div class="source-card">
+          <div class="icon">🌨️</div>
+          <div class="name">Open-Meteo (Snow Reports)</div>
+          <div class="detail">Live snowfall data — inches in the last 7 days and total base depth — for 12 key resorts across USA, Canada, Europe, South America, NZ, and Australia. Used to prioritize which markets to spend in.</div>
+          <span class="cost cost-free">Free — no API key needed</span>
+        </div>
+        <div class="source-card">
+          <div class="icon">🏂</div>
+          <div class="name">Park Events Calendar</div>
+          <div class="detail">Scrapes the FIS Freestyle calendar for upcoming slopestyle, halfpipe, and rail jam events. Flags events within 3 weeks, calculates the ideal advertising window, and includes expected attendance.</div>
+          <span class="cost cost-free">Free public data</span>
+        </div>
+        <div class="source-card" style="background:#f0fff4; border-color:#9ae6b4;">
+          <div class="icon">🧠</div>
+          <div class="name">Claude AI (Anthropic)</div>
+          <div class="detail">All 5 data sources are combined and sent to Claude — an AI made by Anthropic. Claude reads everything and writes the analysis, recommendations, and Game Plan in plain English.</div>
+          <span class="cost cost-paid">Small API cost per report (~$0.10–0.30)</span>
+        </div>
+      </div>
+
+      <!-- WHAT'S IN THE REPORT -->
+      <div class="sh">What's in the Weekly Report</div>
+
+      <div class="report-section">
+        <span class="rnum">★</span><span class="rtitle">Game Plan — The 5 things to do this week</span>
+        <div class="rdesc">Sits at the top of the report. Written for someone with no marketing background. Numbered action items with plain-English reasoning and dollar context. Takes 3 minutes to read.</div>
+      </div>
+      <div class="report-section">
+        <span class="rnum">1</span><span class="rtitle">Your Ads This Week</span>
+        <div class="rdesc">Which ads are making money, which are losing it, which locations are converting, who's buying and when. Calls out specific ad IDs with a clear "do this" action for each.</div>
+      </div>
+      <div class="report-section">
+        <span class="rnum">2</span><span class="rtitle">Market Conditions</span>
+        <div class="rdesc">Which hemisphere is in season, where searches are spiking vs dropping, snow conditions at 12 resorts, and all upcoming park events with their exact advertising windows.</div>
+      </div>
+      <div class="report-section">
+        <span class="rnum">3</span><span class="rtitle">Competitor Activity</span>
+        <div class="rdesc">Where competitors are advertising (and where they're not — your gap opportunities), which of their creatives have been running long enough to be profitable, and which markets are crowded.</div>
+      </div>
+      <div class="report-section">
+        <span class="rnum">4A</span><span class="rtitle">What to Do With Your Existing Ads</span>
+        <div class="rdesc">Specific instructions for each running ad: pause, scale up, clone to a new market, shift budget, adjust timing, or refine the audience. Nothing vague.</div>
+      </div>
+      <div class="report-section">
+        <span class="rnum">4B</span><span class="rtitle">New Ads Worth Launching</span>
+        <div class="rdesc">New markets with zero competitors, event-specific ad opportunities, new audience segments, and missing ad formats — ranked by potential profit impact.</div>
+      </div>
+      <div class="report-section">
+        <span class="rnum">5</span><span class="rtitle">Big Picture</span>
+        <div class="rdesc">A full-market overview: everything trending up, everything trending down, hemisphere summary, event calendar, and a 2–4 week focus statement.</div>
+      </div>
+
+      <!-- WHAT YOU NEED TO GO LIVE -->
+      <div class="sh">What You Need to Go Live</div>
+
+      <table class="need-table">
+        <thead>
+          <tr>
+            <th>What</th>
+            <th>Why it's needed</th>
+            <th>How hard</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Meta Ads access token</strong></td>
+            <td>Lets the system read your ad performance. Read-only — can't touch spend.</td>
+            <td><span class="tag tag-med">15 min setup</span></td>
+            <td><span class="tag tag-free">Free</span></td>
+          </tr>
+          <tr>
+            <td><strong>Meta Ad Account ID</strong></td>
+            <td>Tells the system which ad account to pull data from.</td>
+            <td><span class="tag tag-easy">30 seconds</span></td>
+            <td><span class="tag tag-free">Free</span></td>
+          </tr>
+          <tr>
+            <td><strong>Meta Ad Library token</strong></td>
+            <td>Needed to search the public competitor ad database.</td>
+            <td><span class="tag tag-easy">Same token as above</span></td>
+            <td><span class="tag tag-free">Free</span></td>
+          </tr>
+          <tr>
+            <td><strong>Anthropic API key</strong></td>
+            <td>Lets the system use Claude AI to analyze the data and write the report.</td>
+            <td><span class="tag tag-easy">5 min — sign up at anthropic.com</span></td>
+            <td>~$0.10–0.30 per report</td>
+          </tr>
+          <tr>
+            <td><strong>Gmail account + OAuth setup</strong></td>
+            <td>So the report can be emailed to you automatically every Sunday.</td>
+            <td><span class="tag tag-med">20–30 min setup</span></td>
+            <td><span class="tag tag-free">Free</span></td>
+          </tr>
+          <tr>
+            <td><strong>A computer/server to run it on</strong></td>
+            <td>The script needs to run somewhere every Sunday at 8am. Can be your own computer (must be on) or a cheap cloud server.</td>
+            <td><span class="tag tag-med">Easy if your computer is always on</span></td>
+            <td>$0 (own computer) or ~$5/mo (cloud)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- CURRENT STATUS -->
+      <div class="sh" style="margin-top:28px;">Current Status</div>
+
+      <div class="status-bar">
+        <div class="sicon">✅</div>
+        <div class="stxt">
+          <strong>Demo mode is fully working</strong>
+          The entire system is built and running in demo mode. It generates realistic fake data for all 5 sources, runs it through the full analysis pipeline, and produces the complete weekly report — exactly as it would look live. The companion HTML file is that report output.
+        </div>
+      </div>
+
+      <div class="demo-bar">
+        <div class="sicon">🔑</div>
+        <div class="stxt">
+          <strong>Going live requires credentials only — no code changes</strong>
+          There is a single switch in the config file: <code>DEMO_MODE = False</code>. Everything else stays the same. The only work to go live is connecting the 5 credentials in the table above. The Google Trends, snow reports, and park events data sources need no credentials at all — they're already live even in demo mode.
+        </div>
+      </div>
+
+      <!-- COST -->
+      <div class="sh">Estimated Running Cost</div>
+
+      <div class="cost-grid">
+        <div class="cost-item">
+          <div class="clabel">Claude AI (per report)</div>
+          <div class="cval">$0.10–0.30</div>
+          <div class="cnote">Only charge when the report runs (once a week). Based on current Anthropic API pricing for claude-sonnet-4-6.</div>
+        </div>
+        <div class="cost-item">
+          <div class="clabel">Per month (4 reports)</div>
+          <div class="cval">~$1–2</div>
+          <div class="cnote">If running on your own computer. Add ~$5/mo if hosting on a cloud server (e.g. DigitalOcean, Render).</div>
+        </div>
+        <div class="cost-item">
+          <div class="clabel">Meta API</div>
+          <div class="cval">Free</div>
+          <div class="cnote">Meta's Marketing API and Ad Library API are both free at the volume this system uses.</div>
+        </div>
+        <div class="cost-item">
+          <div class="clabel">Everything else</div>
+          <div class="cval">Free</div>
+          <div class="cnote">Google Trends, Open-Meteo snow data, FIS event calendar, and Gmail sending are all free.</div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="sh">Common Questions</div>
+
+      <div class="faq-item">
+        <div class="q">Can this system spend my money or change my ads?</div>
+        <div class="a">No. It is completely read-only. It connects to your Meta account with a read-only access token that cannot make any changes. It only reads your data to analyze it. Any changes to your ads are made by you manually in Meta Ads Manager after reading the report.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">What happens if one of the data sources is down?</div>
+        <div class="a">The system is designed to keep running even if one source fails. If, say, Google Trends is unavailable, the rest of the report still generates normally. The report will note which source had an issue.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">Can I change which markets or resorts it tracks?</div>
+        <div class="a">Yes. The list of target cities, resorts, and competitors to watch is all configurable in the code. It can be updated anytime to reflect new markets you're entering or leaving.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">Can I get the report more than once a week?</div>
+        <div class="a">Yes. The schedule is configurable. You could run it daily if you wanted, though the data sources (especially Meta performance) are most meaningful on a weekly cadence.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">Can it track more than one brand or ad account?</div>
+        <div class="a">Not in the current setup, but it's a straightforward addition — run multiple instances with different config files.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">What does the AI actually do — is it just summarizing?</div>
+        <div class="a">It's doing more than summarizing. It receives all 5 data sources combined, plus context about the brand's three audience pillars (park riders, functional ski, streetwear/lifestyle) and hemisphere season logic. It then cross-references all of it — for example, noticing that a market has a search spike AND a competitor gap AND an upcoming event AND good snow conditions, and flagging that combination as a high-priority opportunity. A human analyst doing this manually would take 2–3 hours per week.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">What if the recommendations are wrong?</div>
+        <div class="a">The AI makes judgment calls based on the data, but you always make the final call. The report is designed to give you the reasoning behind each recommendation, not just the recommendation — so you can disagree and skip it. Over time, you can also give feedback on which recommendations worked and which didn't, and the prompts can be tuned accordingly.</div>
+      </div>
+
+      <!-- FILES -->
+      <div class="sh">Project Files</div>
+
+      <div style="background:#f8f9fc; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; font-size:12.5px; color:#4a5568; line-height:2.0; font-family: 'SFMono-Regular', Consolas, monospace;">
+        project/<br>
+        &nbsp;&nbsp;config.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← master settings + credentials (DEMO_MODE switch lives here)</span><br>
+        &nbsp;&nbsp;scheduler.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← runs the pipeline every Sunday at 8am</span><br>
+        &nbsp;&nbsp;aggregator.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← pulls all 5 data sources and combines them</span><br>
+        &nbsp;&nbsp;analyzer.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← sends data to Claude AI, gets back analysis</span><br>
+        &nbsp;&nbsp;emailer.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← builds the HTML report and emails it to you</span><br>
+        &nbsp;&nbsp;ski_calendar.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← hemisphere logic + all 36 target markets</span><br>
+        &nbsp;&nbsp;collectors/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← live API connectors (used when DEMO_MODE = False)</span><br>
+        &nbsp;&nbsp;dummy/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← realistic fake data generators (used in demo mode)</span><br>
+        &nbsp;&nbsp;.env.example &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a0aec0;font-family:inherit;">← template for all credentials needed to go live</span>
+      </div>
+
+    </div><!-- /body -->
+
+    <div class="footer">
+      Trashbags Co. Ad Intelligence System &nbsp;·&nbsp; Built with Python + Claude AI (Anthropic) &nbsp;·&nbsp; June 2026<br>
+      See companion file <em>Trashbags_AdReport_POC.html</em> for the actual weekly report output
+    </div>
+
+  </div><!-- /card-wrap -->
+</div><!-- /wrap -->
+</body>
+</html>

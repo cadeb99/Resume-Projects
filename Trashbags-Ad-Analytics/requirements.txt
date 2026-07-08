@@ -1,0 +1,10 @@
+anthropic>=0.30.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+schedule>=1.2.0
+beautifulsoup4>=4.12.0
+pytrends>=4.9.0
+google-auth>=2.23.0
+google-auth-oauthlib>=1.1.0
+google-api-python-client>=2.100.0
+lxml>=4.9.0
