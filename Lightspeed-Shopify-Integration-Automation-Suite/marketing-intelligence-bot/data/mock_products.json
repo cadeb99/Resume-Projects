@@ -1,0 +1,16 @@
+[
+  {"sku": "SB-1001", "name": "Toddler Insulated Snowsuit", "store": "Stork & Bear", "category": "winter_outerwear", "price": 68.00, "qty_in_stock": 14, "reorder_point": 4, "units_sold_in_store_30d": 6},
+  {"sku": "SB-1002", "name": "Fleece-Lined Mittens", "store": "Stork & Bear", "category": "winter_outerwear", "price": 14.00, "qty_in_stock": 2, "reorder_point": 5, "units_sold_in_store_30d": 12},
+  {"sku": "SB-1010", "name": "Organic Cotton Onesie 3-Pack", "store": "Stork & Bear", "category": "everyday_clothing", "price": 32.00, "qty_in_stock": 22, "reorder_point": 6, "units_sold_in_store_30d": 10},
+  {"sku": "SB-1015", "name": "Merino Wool Baby Booties", "store": "Stork & Bear", "category": "footwear", "price": 24.00, "qty_in_stock": 9, "reorder_point": 4, "units_sold_in_store_30d": 3},
+  {"sku": "SB-1020", "name": "Swaddle Blanket Set", "store": "Stork & Bear", "category": "baby_gear", "price": 38.00, "qty_in_stock": 11, "reorder_point": 4, "units_sold_in_store_30d": 5},
+  {"sku": "ATW-2001", "name": "Wooden Snow Sled", "store": "Around the World Toys", "category": "outdoor_toys", "price": 45.00, "qty_in_stock": 6, "reorder_point": 3, "units_sold_in_store_30d": 14},
+  {"sku": "ATW-2002", "name": "Handcrafted Wooden Puzzle - Rocky Mountains", "store": "Around the World Toys", "category": "educational_toys_games", "price": 24.00, "qty_in_stock": 18, "reorder_point": 5, "units_sold_in_store_30d": 8},
+  {"sku": "ATW-2010", "name": "Colorado Wildlife Plush Set", "store": "Around the World Toys", "category": "plush_collectibles", "price": 19.00, "qty_in_stock": 27, "reorder_point": 8, "units_sold_in_store_30d": 15},
+  {"sku": "ATW-2015", "name": "Balance Bike (Ages 2-5)", "store": "Around the World Toys", "category": "outdoor_toys", "price": 89.00, "qty_in_stock": 3, "reorder_point": 2, "units_sold_in_store_30d": 9},
+  {"sku": "ATW-2020", "name": "STEM Building Block Set", "store": "Around the World Toys", "category": "educational_toys_games", "price": 34.00, "qty_in_stock": 12, "reorder_point": 4, "units_sold_in_store_30d": 7},
+  {"sku": "ATW-2025", "name": "Colorado Trail Sticker Book", "store": "Around the World Toys", "category": "books_crafts", "price": 9.00, "qty_in_stock": 31, "reorder_point": 10, "units_sold_in_store_30d": 4},
+  {"sku": "ATW-2030", "name": "Beginner Watercolor Craft Kit", "store": "Around the World Toys", "category": "books_crafts", "price": 21.00, "qty_in_stock": 16, "reorder_point": 5, "units_sold_in_store_30d": 6},
+  {"sku": "ATW-2035", "name": "Mountain Marmot Plush", "store": "Around the World Toys", "category": "plush_collectibles", "price": 16.00, "qty_in_stock": 24, "reorder_point": 8, "units_sold_in_store_30d": 11},
+  {"sku": "SB-1030", "name": "Kids Rain Boots", "store": "Stork & Bear", "category": "footwear", "price": 28.00, "qty_in_stock": 15, "reorder_point": 5, "units_sold_in_store_30d": 4}
+]

@@ -1,0 +1,16 @@
+{
+  "SB-1001": {"sessions_30d": 210, "add_to_cart_30d": 34, "units_sold_online_30d": 9, "traffic_source_top": "meta_ad"},
+  "SB-1002": {"sessions_30d": 40, "add_to_cart_30d": 5, "units_sold_online_30d": 1, "traffic_source_top": "organic"},
+  "SB-1010": {"sessions_30d": 300, "add_to_cart_30d": 60, "units_sold_online_30d": 25, "traffic_source_top": "organic"},
+  "SB-1015": {"sessions_30d": 150, "add_to_cart_30d": 40, "units_sold_online_30d": 4, "traffic_source_top": "meta_ad"},
+  "SB-1020": {"sessions_30d": 90, "add_to_cart_30d": 15, "units_sold_online_30d": 7, "traffic_source_top": "direct"},
+  "ATW-2001": {"sessions_30d": 20, "add_to_cart_30d": 2, "units_sold_online_30d": 0, "traffic_source_top": "organic"},
+  "ATW-2002": {"sessions_30d": 180, "add_to_cart_30d": 45, "units_sold_online_30d": 20, "traffic_source_top": "meta_ad"},
+  "ATW-2010": {"sessions_30d": 260, "add_to_cart_30d": 70, "units_sold_online_30d": 33, "traffic_source_top": "meta_ad"},
+  "ATW-2015": {"sessions_30d": 15, "add_to_cart_30d": 1, "units_sold_online_30d": 0, "traffic_source_top": "direct"},
+  "ATW-2020": {"sessions_30d": 200, "add_to_cart_30d": 55, "units_sold_online_30d": 18, "traffic_source_top": "organic"},
+  "ATW-2025": {"sessions_30d": 30, "add_to_cart_30d": 3, "units_sold_online_30d": 1, "traffic_source_top": "direct"},
+  "ATW-2030": {"sessions_30d": 70, "add_to_cart_30d": 12, "units_sold_online_30d": 3, "traffic_source_top": "organic"},
+  "ATW-2035": {"sessions_30d": 220, "add_to_cart_30d": 65, "units_sold_online_30d": 30, "traffic_source_top": "meta_ad"},
+  "SB-1030": {"sessions_30d": 25, "add_to_cart_30d": 2, "units_sold_online_30d": 0, "traffic_source_top": "organic"}
+}
